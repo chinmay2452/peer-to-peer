@@ -7,16 +7,20 @@ import LoginPage from "./pages/LoginPage";
 import Doubtboard from "./pages/doubtboard";
 import AskPage from "./pages/ask";
 import QuestionDetail from "./pages/QuestionDetail.tsx";
+import ChatProvider from "./components/ChatProvider";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<SignupPage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/doubtboard" element={<Doubtboard />} />
-      <Route path="/ask" element={<AskPage />} />
-      <Route path="/question/:questionId" element={<QuestionDetail />} />
-    </Routes>
+    <div className="app-container">
+      <Routes>
+        <Route path="/" element={<SignupPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/doubtboard" element={<Doubtboard />} />
+        <Route path="/ask" element={<AskPage />} />
+        <Route path="/question/:questionId" element={<QuestionDetail />} />
+      </Routes>
+      <ChatProvider />
+    </div>
   );
 }
 
