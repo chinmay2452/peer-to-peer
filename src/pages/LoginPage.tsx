@@ -5,12 +5,10 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { motion } from "framer-motion";
 
-const SignupPage: React.FC = () => {
+const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
     password: "",
-    confirmPassword: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,12 +18,8 @@ const SignupPage: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match");
-      return;
-    }
-    // TODO: Connect to backend/Firebase Auth
-    console.log("Signup data submitted:", formData);
+    // TODO: Implement login functionality
+    console.log("Login data submitted:", formData);
   };
 
   return (
@@ -37,17 +31,8 @@ const SignupPage: React.FC = () => {
       >
         <Card className="w-full max-w-md rounded-2xl shadow-lg">
           <CardContent className="p-6">
-            <h2 className="text-2xl font-bold mb-4 text-center">Sign Up</h2>
+            <h2 className="text-2xl font-bold mb-4 text-center">Log In</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <Input
-                type="text"
-                name="name"
-                placeholder="Full Name"
-                className="placeholder:text-gray-500"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
               <Input
                 type="email"
                 name="email"
@@ -66,22 +51,18 @@ const SignupPage: React.FC = () => {
                 onChange={handleChange}
                 required
               />
-              <Input
-                type="password"
-                name="confirmPassword"
-                placeholder="Confirm Password"
-                className="placeholder:text-gray-500"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                required
-              />
               <Button type="submit" className="w-full">
-                Create Account
+                Log In
               </Button>
               <p className="text-sm text-center text-gray-600">
-                Already have an account?{" "}
-                <Link to="/login" className="text-blue-500 hover:underline">
-                  Log in
+                Don't have an account?{" "}
+                <Link to="/" className="text-blue-500 hover:underline">
+                  Sign up
+                </Link>
+              </p>
+              <p className="text-xs text-center text-gray-500 mt-2">
+                <Link to="/forgot-password" className="hover:underline">
+                  Forgot password?
                 </Link>
               </p>
             </form>
@@ -92,4 +73,4 @@ const SignupPage: React.FC = () => {
   );
 };
 
-export default SignupPage;
+export default LoginPage; 
