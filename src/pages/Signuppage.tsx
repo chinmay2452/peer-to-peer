@@ -56,6 +56,8 @@ const SignupPage: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
+
+        <div className="flex justify-center items-center"><h1 className="text-2xl font-bold mb-4 text-center text-black">Welcome to the App</h1></div>
         <Card className="w-full max-w-md rounded-2xl shadow-lg">
           <CardContent className="p-6">
             <h1 className="text-2xl font-bold mb-4 text-center text-black">Sign Up</h1>
