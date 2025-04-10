@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent } from "@/components/ui/card";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent } from '@/components/ui/card';
 import { motion } from "framer-motion";
 
-const loginpage: React.FC = () => {
+const SignupPage: React.FC = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -42,6 +42,7 @@ const loginpage: React.FC = () => {
                 type="text"
                 name="name"
                 placeholder="Full Name"
+                className="placeholder:text-gray-500"
                 value={formData.name}
                 onChange={handleChange}
                 required
@@ -50,6 +51,7 @@ const loginpage: React.FC = () => {
                 type="email"
                 name="email"
                 placeholder="Email"
+                className="placeholder:text-gray-500"
                 value={formData.email}
                 onChange={handleChange}
                 required
@@ -58,6 +60,7 @@ const loginpage: React.FC = () => {
                 type="password"
                 name="password"
                 placeholder="Password"
+                className="placeholder:text-gray-500"
                 value={formData.password}
                 onChange={handleChange}
                 required
@@ -66,6 +69,7 @@ const loginpage: React.FC = () => {
                 type="password"
                 name="confirmPassword"
                 placeholder="Confirm Password"
+                className="placeholder:text-gray-500"
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 required
@@ -73,6 +77,12 @@ const loginpage: React.FC = () => {
               <Button type="submit" className="w-full">
                 Create Account
               </Button>
+              <p className="text-sm text-center text-gray-600">
+                Already have an account?{" "}
+                <a href="/login" className="text-blue-500 hover:underline">
+                  Log in
+                </a>
+              </p>
             </form>
           </CardContent>
         </Card>
@@ -81,4 +91,4 @@ const loginpage: React.FC = () => {
   );
 };
 
-export default loginpage;
+export default SignupPage;
