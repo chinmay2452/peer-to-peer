@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -100,9 +101,9 @@ const SignupPage: React.FC = () => {
               </Button>
               <p className="text-sm text-center text-gray-600">
                 Already have an account?{" "}
-                <a href="/login" className="text-blue-500 hover:underline">
+                <Link to="/login" className="text-blue-500 hover:underline">
                   Log in
-                </a>
+                </Link>
               </p>
             </form>
           </CardContent>
