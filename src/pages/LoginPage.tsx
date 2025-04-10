@@ -19,9 +19,16 @@ const LoginPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, formData.email, formData.password);
+      const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
       console.log("Login successful!");
-      navigate("/doubtboard"); // ✅ redirect to dashboard or homepage
+      navigate("/doubtboard", { 
+        state: { 
+          user: {
+            name: userCredential.user.displayName || formData.email.split('@')[0],
+            email: userCredential.user.email
+          }
+        }
+      });
     } catch (error: any) {
       console.error("Login error:", error.message);
       alert("Login failed: " + error.message);

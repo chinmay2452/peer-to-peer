@@ -10,6 +10,8 @@
     "server": "ts-node server.ts"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.1",
+    "@heroicons/react": "^2.2.0",
     "@radix-ui/react-avatar": "^1.1.4",
     "cors": "^2.8.5",
     "express": "^5.1.0",
