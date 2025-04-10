@@ -4,14 +4,28 @@ import { cn } from "@/lib/utils";
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "default" | "outline" | "ghost";
+  size?: "default" | "sm" | "lg" | "icon";
+  asChild?: boolean;
 };
 
-export const Button: React.FC<ButtonProps> = ({ className, variant = "default", ...props }) => {
+export const Button: React.FC<ButtonProps> = ({ 
+  className, 
+  variant = "default", 
+  size = "default",
+  asChild = false,
+  ...props 
+}) => {
+  const Comp = asChild ? 'div' : 'button';
+  
   return (
-    <button
+    <Comp
       className={cn(
-        "px-4 py-2 rounded-md text-white font-medium transition",
-        variant === "default" && "bg-blue-600 hover:bg-blue-700",
+        "rounded-md font-medium transition",
+        size === "default" && "px-4 py-2",
+        size === "sm" && "px-3 py-1 text-sm",
+        size === "lg" && "px-6 py-3 text-lg",
+        size === "icon" && "p-2 h-10 w-10 flex items-center justify-center",
+        variant === "default" && "bg-blue-600 hover:bg-blue-700 text-black",
         variant === "outline" && "border border-blue-600 text-blue-600 hover:bg-blue-50",
         variant === "ghost" && "bg-transparent text-blue-600 hover:underline",
         className

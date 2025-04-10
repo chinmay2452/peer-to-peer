@@ -21,7 +21,7 @@ const LoginPage: React.FC = () => {
     try {
       await signInWithEmailAndPassword(auth, formData.email, formData.password);
       console.log("Login successful!");
-      navigate("/dashboard"); // ✅ redirect to dashboard or homepage
+      navigate("/doubtboard"); // ✅ redirect to dashboard or homepage
     } catch (error: any) {
       console.error("Login error:", error.message);
       alert("Login failed: " + error.message);
