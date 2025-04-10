@@ -3,6 +3,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { motion } from "framer-motion";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from "@/firebase"; // make sure the path is correct
+import { Navigate, useNavigate } from "react-router-dom"; // useNavigate hook for navigation
 
 const SignupPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -17,14 +20,32 @@ const SignupPage: React.FC = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords do not match");
       return;
     }
-    // TODO: Connect to backend/Firebase Auth
-    console.log("Signup data submitted:", formData);
+  
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+  
+      await updateProfile(userCredential.user, {
+        displayName: formData.name,
+      });
+  
+      console.log("User signed up:", userCredential.user);
+      alert("Account created successfully!");
+      Navigate("/login");
+      // You can redirect to dashboard or login
+    } catch (error: any) {
+      console.error("Signup error:", error.message);
+      alert(error.message);
+    }
   };
 
   return (
@@ -42,7 +63,7 @@ const SignupPage: React.FC = () => {
                 type="text"
                 name="name"
                 placeholder="Full Name"
-                className="placeholder:text-gray-500"
+                className="placeholder:text-gray-500 text-black"
                 value={formData.name}
                 onChange={handleChange}
                 required
@@ -51,7 +72,7 @@ const SignupPage: React.FC = () => {
                 type="email"
                 name="email"
                 placeholder="Email"
-                className="placeholder:text-gray-500"
+                className="placeholder:text-gray-500  text-black"
                 value={formData.email}
                 onChange={handleChange}
                 required
@@ -60,7 +81,7 @@ const SignupPage: React.FC = () => {
                 type="password"
                 name="password"
                 placeholder="Password"
-                className="placeholder:text-gray-500"
+                className="placeholder:text-gray-500  text-black"
                 value={formData.password}
                 onChange={handleChange}
                 required
@@ -69,7 +90,7 @@ const SignupPage: React.FC = () => {
                 type="password"
                 name="confirmPassword"
                 placeholder="Confirm Password"
-                className="placeholder:text-gray-500"
+                className="placeholder:text-gray-500  text-black"
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 required
