@@ -1,25 +1,31 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { motion } from "framer-motion";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/firebase";
 
 const LoginPage: React.FC = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement login functionality
-    console.log("Login data submitted:", formData);
+    try {
+      await signInWithEmailAndPassword(auth, formData.email, formData.password);
+      console.log("Login successful!");
+      navigate("/dashboard"); // ✅ redirect to dashboard or homepage
+    } catch (error: any) {
+      console.error("Login error:", error.message);
+      alert("Login failed: " + error.message);
+    }
   };
 
   return (
@@ -31,7 +37,7 @@ const LoginPage: React.FC = () => {
       >
         <Card className="w-full max-w-md rounded-2xl shadow-lg">
           <CardContent className="p-6">
-            <h2 className="text-2xl font-bold mb-4 text-center">Log In</h2>
+            <h2 className="text-2xl text-black font-bold mb-4 text-center">Log In</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <Input
                 type="email"
