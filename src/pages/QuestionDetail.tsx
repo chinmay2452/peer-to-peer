@@ -24,15 +24,19 @@ interface Question {
   title: string;
   description: string;
   tag: string;
+  tags: string[];
   answers: Answer[];
   bestAnswerId: string | null;
   userId: string;
   userName: string;
   createdAt: any;
+  photoUrl?: string;
+  videoUrl?: string;
+  status: string;
 }
 
 export default function QuestionDetail() {
-  const { questionId } = useParams<{ questionId: string }>();
+  const { id } = useParams<{ id: string }>();
   const [question, setQuestion] = useState<Question | null>(null);
   const [answer, setAnswer] = useState('');
   const [user, setUser] = useState<any>(null);
@@ -54,22 +58,41 @@ export default function QuestionDetail() {
 
   useEffect(() => {
     const fetchQuestion = async () => {
-      if (!questionId) return;
+      if (!id) return;
       
       try {
-        const questionDoc = await getDoc(doc(db, 'questions', questionId));
+        const questionDoc = await getDoc(doc(db, 'questions', id));
         if (questionDoc.exists()) {
-          setQuestion({ id: questionDoc.id, ...questionDoc.data() } as Question);
+          const data = questionDoc.data();
+          setQuestion({
+            id: questionDoc.id,
+            title: data.title || '',
+            description: data.description || '',
+            tag: data.tag || '',
+            tags: data.tags || [],
+            answers: data.answers || [],
+            bestAnswerId: data.bestAnswerId || null,
+            userId: data.userId || '',
+            userName: data.userName || 'Anonymous',
+            createdAt: data.createdAt || null,
+            photoUrl: data.photoUrl || null,
+            videoUrl: data.videoUrl || null,
+            status: data.status || 'open'
+          });
         } else {
+          console.error('Question not found');
           navigate('/doubtboard');
         }
       } catch (error) {
         console.error('Error fetching question:', error);
+        navigate('/doubtboard');
+      } finally {
+        setLoading(false);
       }
     };
     
     fetchQuestion();
-  }, [questionId, navigate]);
+  }, [id, navigate]);
 
   const handleSubmitAnswer = async () => {
     if (!answer.trim() || !user || !question) return;
@@ -155,8 +178,36 @@ export default function QuestionDetail() {
             </h1>
             <p className="text-black mb-4 ">{question.description}</p>
 
+            {/* Display photo if available */}
+            {question.photoUrl && (
+              <div className="my-4">
+                <img 
+                  src={question.photoUrl} 
+                  alt="Question" 
+                  className="max-h-96 rounded-md object-contain w-full"
+                />
+              </div>
+            )}
+            
+            {/* Display video if available */}
+            {question.videoUrl && (
+              <div className="my-4">
+                <video 
+                  src={question.videoUrl} 
+                  controls 
+                  className="w-full max-h-96 rounded-md"
+                />
+              </div>
+            )}
+
             <div className="flex items-center gap-2 mb-4">
-              {question.tag && <Badge>{question.tag}</Badge>}
+              {question.tags && question.tags.length > 0 ? (
+                question.tags.map((tag, index) => (
+                  <Badge key={index}>{tag}</Badge>
+                ))
+              ) : question.tag ? (
+                <Badge>{question.tag}</Badge>
+              ) : null}
             </div>
 
             <div className="text-sm text-gray-500">
