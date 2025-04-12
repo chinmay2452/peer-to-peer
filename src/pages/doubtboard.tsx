@@ -6,7 +6,7 @@ import { UserAvatar, UserAvatarFallback, UserAvatarImage } from '@/components/ui
 import { Input } from '@/components/ui/input';
 import { db, auth } from '@/firebase';
 import { collection, query, getDocs, orderBy, onSnapshot } from 'firebase/firestore';
-import { onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { Card, CardContent } from '@/components/ui/card';
 import Badge from '@/components/ui/badge';
 
@@ -37,8 +37,9 @@ export default function Doubtboard() {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setIsLoggedIn(true);
-        setUserName(user.displayName || 'Anonymous');
-        setUserInitials(userName.split(' ').map((n: string) => n[0]).join('').toUpperCase());
+        const name = user.displayName || 'Anonymous';
+        setUserName(name);
+        setUserInitials(name.split(' ').map((n) => n[0]).join('').toUpperCase());
       } else {
         setIsLoggedIn(false);
         setUserName("");
@@ -103,6 +104,15 @@ export default function Doubtboard() {
     navigate('/ask');
   };
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate('/login');
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
+
   if (loading) {
     return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
   }
@@ -163,6 +173,9 @@ export default function Doubtboard() {
                     {userInitials}
                   </UserAvatarFallback>
                 </UserAvatar>
+                <Button onClick={handleLogout} className="ml-2 text-sm text-gray-700">
+                  Logout
+                </Button>
               </>
             ) : (
               <>
@@ -206,9 +219,6 @@ export default function Doubtboard() {
                         ) : question.tag ? (
                           <Badge>{question.tag}</Badge>
                         ) : null}
-                        <span className="text-sm text-gray-500">
-                          {question.answers.length} {question.answers.length === 1 ? 'answer' : 'answers'}
-                        </span>
                       </div>
                       <div className="flex items-center gap-2 text-sm text-gray-500">
                         <span>Posted by {question.userName}</span>

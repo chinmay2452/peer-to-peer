@@ -51,7 +51,7 @@ const LoginPage: React.FC = () => {
                 type="email"
                 name="email"
                 placeholder="Email"
-                className="placeholder:text-gray-500"
+                className="placeholder:text-gray-500 text-white"
                 value={formData.email}
                 onChange={handleChange}
                 required
@@ -60,7 +60,7 @@ const LoginPage: React.FC = () => {
                 type="password"
                 name="password"
                 placeholder="Password"
-                className="placeholder:text-gray-500"
+                className="placeholder:text-gray-500 text-white"
                 value={formData.password}
                 onChange={handleChange}
                 required

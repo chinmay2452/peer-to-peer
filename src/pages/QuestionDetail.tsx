@@ -291,26 +291,7 @@ export default function QuestionDetail() {
           ))}
         </div>
 
-        {user && (
-          <Card>
-            <CardContent className="p-6">
-              <h3 className="text-lg font-semibold mb-4">Your Answer</h3>
-              <Textarea
-                placeholder="Write your answer here..."
-                value={answer}
-                onChange={(e) => setAnswer(e.target.value)}
-                className="min-h-[150px] mb-4"
-              />
-              <Button
-                onClick={handleSubmitAnswer}
-                className="bg-purple-600 hover:bg-purple-700 text-white"
-                disabled={!answer.trim()}
-              >
-                Submit Answer
-              </Button>
-            </CardContent>
-          </Card>
-        )}
+        {user && null}
       </div>
     </div>
   );
